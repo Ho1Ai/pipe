@@ -2,7 +2,7 @@ import requests
 from keys import I, R, U 
 
 todo = input("write a key (-I, -R, -U): ")
-package = input("write a package name: ")
+package = input("write package name: ")
 
 final_response = None
 
