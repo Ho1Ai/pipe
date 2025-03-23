@@ -20,6 +20,7 @@ if todo == '-I':
     work_instance = I.Install(package)
     work_instance.fetchPkgData(work_instance.pkg_name) # start package is this package. I am using "package_name" variable in this function. If I didn't add this stuff then it's gonna scream that it needs more params. I don't need it, no one needs it, lol
     work_instance.showData()
+    work_instance.installationConfirmation()
 
     
 #    final_response = fetch(package)

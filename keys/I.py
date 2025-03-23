@@ -27,6 +27,12 @@ class Install:
         print('package:', self.pkg_name)
         print('full list of installation (package and dependencies for this package):', self.installation_list)
     
+    def installationConfirmation(self):
+        checkbox = input("Download and install packages? [Y/n]")
+        if checkbox == 'y' or checkbox =='Y' or checkbox =='':
+            self.download()
+            
+
     def download(self):
         #download script is going here
         print("nothing to download")
