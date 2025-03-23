@@ -2,7 +2,10 @@ import requests
 from keys import I, R, U 
 
 todo = input("write a key (-I, -R, -U): ")
-package = input("write package name: ")
+if todo:
+    package = input("write package name: ")
+else:
+    print('couldn\'t receive a key. Application has been stopped')
 
 final_response = None
 

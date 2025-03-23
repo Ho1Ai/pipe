@@ -6,7 +6,7 @@ class Install:
         self.pkg_name = pkg_name
         #self.dependencies_list = [] # installation list used instead
         self.installation_list = []
-        self.INSTALLATION_PATH = '../download/' # Named in CAPS because it is const
+        self.INSTALLATION_PATH = './downloads/' # Named in CAPS because it is const
 
     def areThereAPackage(self):
         checkbox = requests.get('http://localhost:8000/api/package-info', params={'name': self.pkg_name})
@@ -55,4 +55,10 @@ class Install:
         if(self.installation_list == []):
             print("nothing to download") #checking if there is nothing to download (in case there is a bug)
         for index in self.installation_list: #index is just a child of self.installation_list (I mean it is 
-            requests.get('http://localhost:8000/api/download', params={'name':index})
+            response = requests.get('http://localhost:8000/api/download', params={'name':index})
+            
+            name = self.INSTALLATION_PATH+"tmp/"+index #INSTALLATION_PATH is just a path to download dir. Downloaded files should be placed here. Then it will be placed by status in "downloads/installed" (in "downloads/installed/lib" or "downloads/installed/app"). It is using "./downloads/..." because it starts from main.py so I have to call it like I.py is in core of this package manager. Then goes name of package (index = name, because we run through the array with packages)
+            with open(name, "wb") as archieved:
+                archieved.write(response.content)
+            
+            print(index,'- succesful')
