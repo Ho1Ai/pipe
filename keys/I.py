@@ -1,5 +1,9 @@
 #functions for key -I
 import requests
+from installer import install
+
+
+print('test')
 
 class Install:
     def __init__(self, pkg_name):
