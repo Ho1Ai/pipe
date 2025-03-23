@@ -6,6 +6,16 @@ class Install:
         self.pkg_name = pkg_name
         #self.dependencies_list = [] # installation list used instead
         self.installation_list = []
+        self.INSTALLATION_PATH = '../download/' # Named in CAPS because it is const
+
+    def areThereAPackage(self):
+        checkbox = requests.get('http://localhost:8000/api/package-info', params={'name': self.pkg_name})
+        checkbox_in_json = checkbox.json()
+        if checkbox_in_json.get('detail'):
+            print('An error occured: ', checkbox_in_json.get('detail')) #don't wanna use it as a variable, because there is no places where it is used once more
+            return (False)
+        else:
+            return(True)
 
     def fetchPkgData(self, package_name: str):
         res = requests.get("http://localhost:8000/api/package-info", params={"name": package_name})
@@ -24,15 +34,25 @@ class Install:
             return ("An error occured while fetching data for: "+package_name)
 
     def showData(self):
+        print('\nReceived packages list:')
         print('package:', self.pkg_name)
         print('full list of installation (package and dependencies for this package):', self.installation_list)
     
     def installationConfirmation(self):
-        checkbox = input("Download and install packages? [Y/n]")
-        if checkbox == 'y' or checkbox =='Y' or checkbox =='':
-            self.download()
-            
+        if self.installation_list:
+            checkbox = input("Download and install packages? [Y/n] ")
+            if checkbox == 'y' or checkbox =='Y' or checkbox =='':
+                self.download()
+            elif checkbox == 'n' or checkbox == 'N':
+                print('Installation canceled')
+            else:
+                print('Couldn\'t recognize entered flag. Installation canceled')
+        
+        else:
+            print('Nothing to install.')
 
     def download(self):
-        #download script is going here
-        print("nothing to download")
+        if(self.installation_list == []):
+            print("nothing to download") #checking if there is nothing to download (in case there is a bug)
+        for index in self.installation_list: #index is just a child of self.installation_list (I mean it is 
+            requests.get('http://localhost:8000/api/download', params={'name':index})
