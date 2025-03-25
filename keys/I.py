@@ -88,3 +88,7 @@ class Install:
         print("\n\nStarting installation: ")
         for index in self.installation_list:
             install.installPackage(index)
+
+        print("\n\nAdding installations to installation journal...")
+        for index in self.installation_list:
+            install.writePackageInTheList(index)
