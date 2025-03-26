@@ -92,4 +92,4 @@ class Install:
         print("\n\nAdding installations to installation journal...")
         for index in self.installation_list:
             install.writePackageInTheList(index)
-        print('Added!')
+        print('Complete!')
