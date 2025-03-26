@@ -85,10 +85,11 @@ class Install:
         self.installStart()
     
     def installStart(self):
-        print("\n\nStarting installation: ")
+        print("\n\nStarting installation: \n\n")
         for index in self.installation_list:
             install.installPackage(index)
 
         print("\n\nAdding installations to installation journal...")
         for index in self.installation_list:
             install.writePackageInTheList(index)
+        print('Added!')
