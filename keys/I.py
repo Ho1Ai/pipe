@@ -4,15 +4,13 @@ import os
 from installer import install
 
 
-print('test')
-
 class Install:
     def __init__(self, pkg_name):
         self.pkg_name = pkg_name
         #self.dependencies_list = [] # installation list used instead
         self.installation_list = []
         self.INSTALLATION_PATH = './downloads/' # Named in CAPS because it is const
-        self.installed = []
+        # self.installed = []
 
     def areThereAPackage(self):
         checkbox = requests.get('http://localhost:8000/api/package-info', params={'name': self.pkg_name})
@@ -75,8 +73,7 @@ class Install:
                 archieved.write(response.content)
 
             with open(cfg, "w") as cfg:
-                cfg.write(response.headers.get('X-Pkg-Type'))
-                
+                cfg.write(response.headers.get('X-Pkg-Type')) 
 
             print(index,'- succesful')
         

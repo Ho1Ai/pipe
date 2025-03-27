@@ -15,7 +15,8 @@ def installPackage(pkg_name: str):
         print('Execution permission has been given to application "' + pkg_name + '"')
         shutil.rmtree(src_path)
         print('Tree, which contained library "' + pkg_name + '", has been removed (from tmp)')
-
+        
+        
 
     if('app' in config_list):
         final_path = './downloads/installed/app/'+pkg_name+'/'
