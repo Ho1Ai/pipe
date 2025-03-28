@@ -1,4 +1,4 @@
 #functions for -U key
 
-def update():
+def update(pkg_name: str):
     pass
