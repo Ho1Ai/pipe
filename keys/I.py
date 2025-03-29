@@ -1,9 +1,11 @@
 #functions for key -I
+#imports
 import requests
 import os
 from installer import install
 
 
+#code
 class Install:
     def __init__(self, pkg_name):
         self.pkg_name = pkg_name
