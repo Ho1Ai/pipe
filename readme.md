@@ -24,3 +24,8 @@ qt6: rustc, GNU
 rustc: GNU
 
 P.S.: at the moment I am just testing this stuff, so it doesn't download anything or something. It can only resolve dependencies list, no more
+
+
+# What is 'install_cfg.totmb'
+
+'install_cfg.totmb' keeps package info for installation. It has some rules: first line is ALWAYS package type line ('pkg_type' line), second line is ALWAYS package version line ('pkg_ver'/'pkg_version' line). Everything reads these things from these lines so if you want to change it you had better change next files if you need package manager, which can work: I.py (in ./keys), install.py (in ./installer) and also U.py will use these lines (since p0012 it will update everything that can be updated)
