@@ -48,3 +48,6 @@ if todo == '-R':
 
 if todo == '-U':
     work_instance = U.Update()
+    work_instance.checkPackages()
+    if work_instance.areThereAnyUpdates(): #checking if updating is needed (if not it won't start)
+        pass # add installation script!
