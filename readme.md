@@ -26,6 +26,8 @@ rustc: GNU
 P.S.: at the moment I am just testing this stuff, so it doesn't download anything or something. It can only resolve dependencies list, no more
 
 
-# What is 'install_cfg.totmb'
+# What is 'install_cfg.totmb' and what is 'info.st' (for developers or people, who makes forks for their needs)
 
-'install_cfg.totmb' keeps package info for installation. It has some rules: first line is ALWAYS package type line ('pkg_type' line), second line is ALWAYS package version line ('pkg_ver'/'pkg_version' line). Everything reads these things from these lines so if you want to change it you had better change next files if you need package manager, which can work: I.py (in ./keys), install.py (in ./installer) and also U.py will use these lines (since p0012 it will update everything that can be updated)
+'install_cfg.totmb' keeps package info for installation. It has some rules: first line is ALWAYS package type line ('pkg_type' line), second line is ALWAYS package version line ('pkg_ver'/'pkg_version' line). Everything reads these things from these lines so if you want to change it you had better change next files if you need package manager, which can work: I.py (in ./keys), install.py (in ./installer)
+
+File 'info.st' in './downloads/installed/[pkg_type]/[pkg_name]/' is a status file, which keeps package version (needed for -U, because it reads package version from first line in 'info.st' file). Same situation as with 'install_cfg.totmb', which keeps installation config (well, just some needed info): you had better change some files if you need package manager, which can work, else it won't work.
