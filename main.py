@@ -5,7 +5,8 @@ keys_arr = ['-I', '-R', '-U']
 
 todo = input("write a key (-I, -R, -U): ")
 if todo in keys_arr:
-    package = input("write package name: ")
+    if todo != '-U':
+        package = input("write package name: ")
 else:
     print('couldn\'t receive a key. Application has been stopped')
 
@@ -44,3 +45,6 @@ if todo == '-R':
         work_instance.startRemoving()
     else:
         print('An error occured. Pipe has been stopped')
+
+if todo == '-U':
+    work_instance = U.Update()
