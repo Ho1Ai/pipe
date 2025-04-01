@@ -3,6 +3,7 @@
 import os
 import shutil
 import requests
+from installer import update
 
 
 #code
@@ -11,7 +12,7 @@ class Update:
         self.update_list = []
 
     def checkPackages(self):
-        print('checking packages')
+        print('Checking packages...')
         current_pkg_version = ''
 
         with open('./downloads/list_of_installations.totmb') as list_file:
@@ -40,10 +41,9 @@ class Update:
        
     def areThereAnyUpdates(self):
         if(self.update_list):
-            print('packages to update:', self.update_list)
-            return True
+            return True # then it just returns True and it shows full list of updates in self.updateConfirmation
         else:
-            print('everything is up to date')
+            print('Everything is up to date')
             return False
 
     def fetchPkgData(self, pkg_name: str):
@@ -51,3 +51,38 @@ class Update:
         response = requests.get('http://localhost:8000/api/package-info', params={'name': pkg_name})
         res_json = response.json()
         return(res_json.get('version'))
+    
+    def updateConfirmation(self):
+        print('Updates for next packages have been found:', self.update_list) 
+        checkbox = input('Download and install updates for these packages? [Y/n] ')
+        if checkbox == '' or checkbox == 'Y' or checkbox == 'y':
+            self.download()
+        elif checkbox == 'N' or checkbox == 'n':
+            print('Updating has been canceled')
+        else:
+            print('Couldn\'t recognise entered flag. Updating has been canceled')
+
+    def download(self):
+        for index in self.update_list:
+            response = requests.get('http://localhost:8000/api/download', params={'name':index})
+
+            os.makedirs('./downloads/tmp/'+index, exist_ok = True)
+            name = './downloads/tmp/'+index+'/'+index
+            cfg = './downloads/tmp/'+index+'/install_cfg.totmb'
+            with open(name, 'wb') as archieved:
+                archieved.write(response.content)
+
+            with open(cfg,'w') as cfg:
+                cfg.write(response.headers.get('X-Pkg-Type') + '\n' + response.headers.get('X-Pkg-Version'))
+
+                print(index, '- succesful')
+        
+        print('Everything has been downloaded succesfully.')
+        
+        self.startInstallation()
+        # here it runs through "update_list" and downloads every
+
+    def startInstallation(self):
+        print('Starting installation...')
+        for index in self.update_list:
+            update.updatePackage(index)

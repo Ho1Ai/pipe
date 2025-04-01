@@ -52,7 +52,7 @@ class Install:
             elif checkbox == 'n' or checkbox == 'N':
                 print('Installation canceled')
             else:
-                print('Couldn\'t recognize entered flag. Installation canceled')
+                print('Couldn\'t recognize entered flag. Installation has been canceled')
         
         else:
             print('Nothing to install.')
