@@ -1,14 +1,54 @@
 import requests
+import argparse
 from keys import I, R, U 
+
+parser = argparse.ArgumentParser(prog="pipe",
+                               description="pipe package manager",
+                               epilog="epilog")
+
+parser.add_argument('--key', type=str, help='package manager key', required=False)
+parser.add_argument('--pkg', type=str, help='package name', required = False)
+
+args = parser.parse_args()
+
+#print(args.pkg)
+#print(args.key)
 
 keys_arr = ['-I', '-R', '-U']
 
-todo = input("write a key (-I, -R, -U): ")
-if todo in keys_arr:
-    if todo != '-U':
-        package = input("write package name: ")
+#todo = input("write a key (-I, -R, -U): ")
+
+can_proceed = False
+
+package = ''
+
+if args.key==None:
+    todo = input("Write a key (-I, -R, -U): ")
+    if todo in keys_arr:
+        if todo != '-U':
+            package = input('Write a package name: ')
+        can_proceed = True
+    else:
+        print('Couldn\'t receive or recognise entered key. Pipe has been stopped.')
 else:
-    print('couldn\'t receive a key. Application has been stopped')
+    todo = '-'+args.key
+
+#can_proceed = False
+
+#todo = '-'+args.key
+if todo in keys_arr and args.key:
+    #if todo != '-U':
+        #package = input("write package name: ")
+    if todo !='-U' and args.pkg:
+        package=args.pkg
+        can_proceed=True
+    elif todo == '-U':
+        can_proceed=True
+    elif todo !='-U' and args.pkg==None:
+        print('Couldn\'t recieve package name. Please restart pipe and try again.')
+        can_proceed = False # well, it is false by default btw
+#else:
+#   print('Couldn\'t receive a key or couldn\'t recognise entered key. Pipe has been stopped.')
 
 final_response = None
 
@@ -22,14 +62,15 @@ getting_final_list = None
 #        print('Error:', response.text)
 #        return 'An error occured. Couldn\'t receive package or dependency'
 
-if todo == '-I':
-    work_instance = I.Install(package)
-    can_proceed = work_instance.areThereAPackage()
-    if(can_proceed):
+if can_proceed==True:
+    if todo == '-I':
+        work_instance = I.Install(package)
+        can_proceed = work_instance.areThereAPackage()
+        if(can_proceed):
         
-        work_instance.fetchPkgData(work_instance.pkg_name) # start package is this package. I am using "package_name" variable in this function. If I didn't add this stuff then it's gonna scream that it needs more params. I don't need it, no one needs it, lol
-        work_instance.showData()
-        work_instance.installationConfirmation()
+            work_instance.fetchPkgData(work_instance.pkg_name) # start package is this package. I am using "package_name" variable in this function. If I didn't add this stuff then it's gonna scream that it needs more params. I don't need it, no one needs it, lol
+            work_instance.showData()
+            work_instance.installationConfirmation()
     
     #legacy code, btw
 #    final_response = fetch(package)
@@ -39,17 +80,17 @@ if todo == '-I':
 #        for index in nextStep:
 #            print(fetch(index))
 
-if todo == '-R':
-    work_instance = R.Remove(package)
-    if work_instance.checkPkgType():
-        work_instance.startRemoving()
-    else:
-        print('An error occured. Pipe has been stopped')
+    if todo == '-R':
+        work_instance = R.Remove(package)
+        if work_instance.checkPkgType():
+            work_instance.removeConfirmation()
+        else:
+            print('An error occured. Pipe has been stopped')
 
-if todo == '-U':
-    work_instance = U.Update()
-    work_instance.checkPackages()
-    if work_instance.areThereAnyUpdates(): #checking if updating is needed (if not it won't start)
-        work_instance.updateConfirmation() # add installation script!
-    else:
-        print('Package manager has been stopped')
+    if todo == '-U':
+        work_instance = U.Update()
+        work_instance.checkPackages()
+        if work_instance.areThereAnyUpdates(): #checking if updating is needed (if not it won't start)
+            work_instance.updateConfirmation() # add installation script!
+        else:
+            print('Package manager has been stopped')

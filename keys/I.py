@@ -50,9 +50,9 @@ class Install:
             if checkbox == 'y' or checkbox =='Y' or checkbox =='':
                 self.download()
             elif checkbox == 'n' or checkbox == 'N':
-                print('Installation canceled')
+                print('Installation has been canceled.')
             else:
-                print('Couldn\'t recognize entered flag. Installation has been canceled')
+                print('Couldn\'t recognize entered flag. Installation has been canceled.')
         
         else:
             print('Nothing to install.')

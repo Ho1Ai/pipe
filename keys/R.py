@@ -22,9 +22,19 @@ class Remove:
             else:
                 print ('An error occured: couldn\'t find package with this name on your computer')
                 return False
+    def removeConfirmation(self):
+        print('Next package will be removed:', self.pkg_name)
+        checkbox = input('Remove this package? [y/N] ')
+        if checkbox == 'y' or checkbox == 'Y':
+            self.startRemoving()
+        elif checkbox == 'n' or checkbox == 'N' or checkbox == '':
+            print('Removing has been canceled')
+        else:
+            print('Couldn\'t recognise entered flag. Removing has been canceled.')
 
     def startRemoving(self):
         print('Removing package "' + self.pkg_name + '"...')
         remove.removePackage(self.pkg_name, self.pkg_type)
-        print('Removing package ' + self.pkg_name + ' from journal')
+        print('Removing package "' + self.pkg_name + '" from journal...')
+        print('Package "'+self.pkg_name+'" has been removed succesfully.')
         remove.removePackageFromTheList(self.pkg_name)
