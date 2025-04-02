@@ -50,4 +50,4 @@ def writePackageInTheList(pkg_name: str):
         pass
     else:
         with open(list_path, 'a') as writter:
-            writter.write(pkg_name - pkg_version+'\n')
+            writter.write(pkg_name+'\n')
