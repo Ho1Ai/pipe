@@ -17,6 +17,12 @@ package: one
 full list of installation (package and dependencies for this package): ['one', 'rustc', 'GNU', 'qt6']
 
 
+since 00001cap (close alpha python. It is just a subversion for 00001ap (alpha python), which contains not all comments) you can write next stuff
+
+[main@main ~] $ python ./main.py --key I --pkg <pkg_name>
+
+this line is same to previous lines
+
 
 it was just an example with list of dependencies for:
 one: qt6, rustc
