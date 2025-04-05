@@ -8,11 +8,7 @@ parser = argparse.ArgumentParser(prog="pipe",
 
 parser.add_argument('--key', type=str, help='package manager key', required=False)
 parser.add_argument('--pkg', type=str, help='package name', required = False)
-
 args = parser.parse_args()
-
-#print(args.pkg)
-#print(args.key)
 
 keys_arr = ['-I', '-R', '-U']
 
@@ -33,9 +29,6 @@ if args.key==None:
 else:
     todo = '-'+args.key
 
-#can_proceed = False
-
-#todo = '-'+args.key
 if todo in keys_arr and args.key:
     #if todo != '-U':
         #package = input("write package name: ")
