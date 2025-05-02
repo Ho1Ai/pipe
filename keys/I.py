@@ -15,13 +15,15 @@ class Install:
         # self.installed = []
 
     def areThereAPackage(self):
-        checkbox = requests.get('http://localhost:8000/api/package-info', params={'name': self.pkg_name})
-        checkbox_in_json = checkbox.json()
-        if checkbox_in_json.get('detail'):
-            print('An error occured: ', checkbox_in_json.get('detail')) #don't wanna use it as a variable, because there is no places where it is used once more
-            return (False)
-        else:
-            return(True)
+        checkbox = requests.get('http://localhost:8000/api/package-existence', params={'name': self.pkg_name})
+        #checkbox_in_json = checkbox.json()
+        #if checkbox_in_json.get('detail'):
+        #    print('An error occured: ', checkbox_in_json.get('detail')) #don't wanna use it as a variable, because there is no places where it is used once more
+        #    return (False)
+        #else:
+        #    return(True)
+        return True if checkbox.json().get("exist") == True else False
+
 
     def fetchPkgData(self, package_name: str):
         res = requests.get("http://localhost:8000/api/package-info", params={"name": package_name})
@@ -63,10 +65,12 @@ class Install:
         for index in self.installation_list: #index is just a child of self.installation_list (I mean it is 
             response = requests.get('http://localhost:8000/api/download', params={'name':index})
             #typal_response = requests.get('https://localhost:8000/api/package-info', params={'name':index}) # on tests this stuff was needed, because I was receiving pkg data in 2 steps
+            
+            server_name = response.headers.get("X-Pkg-Name")
 
-            os.makedirs('./downloads/tmp/'+index, exist_ok = True)
+            os.makedirs('./downloads/tmp/'+response.headers.get('X-Pkg-Name'), exist_ok = True)
 
-            name = self.INSTALLATION_PATH + "tmp/" + index + '/' + index #INSTALLATION_PATH is just a path to download dir. Downloaded files should be placed here. Then it will be placed by status in "downloads/installed" (in "downloads/installed/lib" or "downloads/installed/app"). It is using "./downloads/..." because it starts from main.py so I have to call it like I.py is in core of this package manager. Then goes name of package (index = name, because we run through the array with packages)
+            name = self.INSTALLATION_PATH + "tmp/" + index + '/' + server_name #INSTALLATION_PATH is just a path to download dir. Downloaded files should be placed here. Then it will be placed by status in "downloads/installed" (in "downloads/installed/lib" or "downloads/installed/app"). It is using "./downloads/..." because it starts from main.py so I have to call it like I.py is in core of this package manager. Then goes name of package (index = name, because we run through the array with packages)
             cfg = self.INSTALLATION_PATH + 'tmp/' + index + '/install_cfg.totmb' # cfg means config. It can keep info about package, but nothing more (info, which it keeps: type, since 00002a it will keep info about authors). Since p0010 it also keeps package version
 
             # since p0010 (all these proto versions are just in my head. p0010 came out on 2025/03/30 - just accept this info) package manager keeps 
@@ -74,10 +78,12 @@ class Install:
             #print(response.headers) # debug line
 
             with open(name, "wb") as archieved:
-                archieved.write(response.content)
+                print("Writer")
+                #archieved.write(response.content)
 
             with open(cfg, "w") as cfg:
-                cfg.write(response.headers.get('X-Pkg-Type')+ '\n' + response.headers.get('X-Pkg-Version'))
+                print("Cfg writer")
+                cfg.write(response.headers.get('X-Pkg-Type')+ '\n' + response.headers.get('X-Pkg-Version'+'\n'+response.headers.get('X-Pkg-Buildtype')))
 
             print(index,'- succesful')
         
