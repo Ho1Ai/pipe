@@ -100,12 +100,13 @@ class Install:
         
         print('All the packages have been downloaded')
 
-        self.installStart()
+        self.installStart(server_name)
     
-    def installStart(self):
+    def installStart(self, pkg_file_name):
         print("\n\nStarting installation: \n\n")
         for index in self.installation_list:
-            install.installPackage(index)
+            #install.installPrebuiltPackage(index)
+            package_type = install.checkPackageBuildType(index)
 
         print("\n\nAdding installations to installation journal...")
         for index in self.installation_list:
