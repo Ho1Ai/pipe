@@ -7,21 +7,21 @@ Pipe is a package manager for WaxusBS. It is simple and open-source. Everyone ca
 at the moment you have to start a local server (check pipe-server repository), then you can add some packages using, for example, Postman or smth like that... well, I'm gonna write this stuff in readme.md for backend. Then you have to start venv (you can create it using "python -m venv venv"), then you have to install package "requests" (write "pip install requests"), then start `main.py`. At the moment works only -I key, so you can't use -U or -R keys. Well, let's look at example (user input goes after '>' symbol):
 
 [main@main ~] $ python ./main.py
-write a key (-I, -R, -U): > -I
-write package name: > one
-resolving dependencies for: one
-resolving dependencies for: rustc
-resolving dependencies for: GNU
-resolving dependencies for: qt6
-package: one
-full list of installation (package and dependencies for this package): ['one', 'rustc', 'GNU', 'qt6']
+write a key (-I, -R, -U): > -I  
+write package name: > one  
+resolving dependencies for: one  
+resolving dependencies for: rustc  
+resolving dependencies for: GNU  
+resolving dependencies for: qt6  
+package: one  
+full list of installation (package and dependencies for this package): ['one', 'rustc', 'GNU', 'qt6']  
 
 
 
-it was just an example with list of dependencies for:
-one: qt6, rustc
-qt6: rustc, GNU
-rustc: GNU
+it was just an example with list of dependencies for:  
+one: qt6, rustc  
+qt6: rustc, GNU  
+rustc: GNU  
 
 P.S.: at the moment I am just testing this stuff, so it doesn't download anything or something. It can only resolve dependencies list, no more
 
