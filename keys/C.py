@@ -24,3 +24,5 @@ class Check:
             #print(installation_list)
             print('') # adding an empty line
             print("name:", info.get('name'), "\ncurrent version:", info.get('version'), "\npackage type (prebuilt/compile):", info.get('build_type'), "\ninstalled:", installed)
+        else:
+            print("\nObject with this name does not exist")
