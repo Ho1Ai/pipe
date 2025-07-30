@@ -1,6 +1,6 @@
 import requests
 import argparse
-from keys import I, R, U 
+from keys import I, R, U, C 
 
 parser = argparse.ArgumentParser(prog="pipe",
                                description="pipe package manager",
@@ -14,7 +14,7 @@ args = parser.parse_args()
 #print(args.pkg)
 #print(args.key)
 
-keys_arr = ['-I', '-R', '-U']
+keys_arr = ['-I', '-R', '-U', '-C']
 
 #todo = input("write a key (-I, -R, -U): ")
 
@@ -94,3 +94,7 @@ if can_proceed==True:
             work_instance.updateConfirmation() # add installation script!
         else:
             print('Package manager has been stopped')
+
+    if todo == '-C':
+        work_instance = C.Check(args.pkg)
+        work_instance.getInfo()
