@@ -68,10 +68,11 @@ class Install:
             #typal_response = requests.get('https://localhost:8000/api/package-info', params={'name':index}) # on tests this stuff was needed, because I was receiving pkg data in 2 steps
             
             server_name = response.headers.get("X-Pkg-Name")
+            pkg_itself_name = response.headers.get("X-Pkg-Package-Name")
 
             os.makedirs('./downloads/tmp/'+index, exist_ok = True)
 
-            name = self.INSTALLATION_PATH + "tmp/" + index + '/' + server_name #INSTALLATION_PATH is just a path to download dir. Downloaded files should be placed here. Then it will be placed by status in "downloads/installed" (in "downloads/installed/lib" or "downloads/installed/app"). It is using "./downloads/..." because it starts from main.py so I have to call it like I.py is in core of this package manager. Then goes name of package (index = name, because we run through the array with packages)
+            name = self.INSTALLATION_PATH + "tmp/" + index + '/' + pkg_itself_name #INSTALLATION_PATH is just a path to download dir. Downloaded files should be placed here. Then it will be placed by status in "downloads/installed" (in "downloads/installed/lib" or "downloads/installed/app"). It is using "./downloads/..." because it starts from main.py so I have to call it like I.py is in core of this package manager. Then goes name of package (index = name, because we run through the array with packages)
             cfg = self.INSTALLATION_PATH + 'tmp/' + index + '/install_cfg.totmb' # cfg means config. It can keep info about package, but nothing more (info, which it keeps: type, since 00002a it will keep info about authors). Since p0010 it also keeps package version
 
             # since p0010 (all these proto versions are just in my head. p0010 came out on 2025/03/30 - just accept this info) package manager keeps 
