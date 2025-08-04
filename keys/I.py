@@ -22,6 +22,7 @@ class Install:
         #    return (False)
         #else:
         #    return(True)
+        #print(checkbox.json())
         return True if checkbox.json().get("exist") == True else False
 
 
