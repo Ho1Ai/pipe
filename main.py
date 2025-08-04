@@ -4,15 +4,25 @@ from keys import I, R, U, C
 
 parser = argparse.ArgumentParser(prog="pipe",
                                description="pipe package manager",
-                               epilog="epilog")
+                               epilog="Pipe package manager. WaxusBS operating system package manager. Test versions")
 
 parser.add_argument('--key', type=str, help='package manager key', required=False)
 parser.add_argument('--pkg', type=str, help='package name', required = False)
+
+
+#parser.add_argument('--update-all', type=bool, help='if you wanna update all packages, which have been installed using pipe package manager, on your computer', required = False)
+#parser.add_argument('--install', type=bool, help='if you wanna install a package', required = False)
+#parser.add_argument('--remove', type=bool, help='if you wanna remove a package', required=False)
+#parser.add_argument('--install-single', type=bool, help='if you wanna install only package, with no dependencies', required=False)
+#parser.add_argument('--no-ask', type=bool, help='removes "install? [Y/n]" message on installation. For remove and some others it won\'t disable anything')
+
 
 args = parser.parse_args()
 
 #print(args.pkg)
 #print(args.key)
+
+#print(args)
 
 keys_arr = ['-I', '-R', '-U', '-C']
 
