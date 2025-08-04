@@ -68,7 +68,10 @@ class Install:
             #typal_response = requests.get('https://localhost:8000/api/package-info', params={'name':index}) # on tests this stuff was needed, because I was receiving pkg data in 2 steps
             
             server_name = response.headers.get("X-Pkg-Name")
+            #print(response.headers)
             pkg_itself_name = response.headers.get("X-Pkg-Package-Name")
+
+            #print(pkg_itself_name)
 
             os.makedirs('./downloads/tmp/'+index, exist_ok = True)
 
