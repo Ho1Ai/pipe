@@ -15,14 +15,16 @@ AVAILABLE_PKG_TYPES = ['app', 'lib', 'osn', 'kernel', 'etc'] # osn = needed by O
 
 def installPrebuiltPackage(pkg_name: str):
     config_list = open('./downloads/tmp/'+pkg_name+'/install_cfg.totmb').readlines()
+    npkg_name = config_list[3]
+    #print(npkg_name, pkg_name)
     if ('lib' in config_list[0]):
         final_path = './downloads/installed/lib/'+pkg_name+'/'
         src_path='./downloads/tmp/'+pkg_name+'/'
         os.makedirs(final_path, exist_ok = True)# creating dirs for each package in app or lib
         print('\nCreated directory for next library:', pkg_name+';')
-        shutil.copy(src_path + pkg_name, final_path)
-        print('Copied library "'+pkg_name+'" into '+final_path)
-        os.chmod(final_path+pkg_name, 0o755)
+        shutil.copy(src_path + npkg_name, final_path)
+        print('Copied library "'+npkg_name+'" into '+final_path)
+        os.chmod(final_path+npkg_name, 0o755)
         print('Execution permission has been given to application "' + pkg_name + '"')
         shutil.rmtree(src_path)
         print('Tree, which contained library "' + pkg_name + '", has been removed (from tmp)')
@@ -34,9 +36,9 @@ def installPrebuiltPackage(pkg_name: str):
         src_path = './downloads/tmp/'+pkg_name+'/'
         os.makedirs(final_path, exist_ok = True) # I don't use elif just not to catch bug in case it is an application and lib in the same moment
         print('\nCreated directory for next application:',pkg_name+';')
-        shutil.copy(src_path + pkg_name, final_path)
+        shutil.copy(src_path + npkg_name, final_path)
         print('Copied application "'+pkg_name+'" into '+final_path)
-        os.chmod(final_path + pkg_name,0o755)
+        os.chmod(final_path + npkg_name,0o755)
         print('Execution permission has been given to application "' + pkg_name + '"') #yeah, 'print(f"... to application {pkg_name}")' is not for me.
         shutil.rmtree(src_path)
         print('Tree, which contained application "' + pkg_name + '", has been removed (from tmp)')
@@ -52,7 +54,7 @@ def writePackageVersion(pkg_name:str, pkg_type:str, pkg_ver: str):
 
 def writePackageInTheList(pkg_name: str):
     #reader reads logs, writter writes if it is necessary
-    list_path = './downloads/list_of_installations.totmb'
+    list_path = './cache/loi.sst'
     reader = open(list_path).read()
     if pkg_name in reader:
         pass
@@ -94,6 +96,9 @@ def compileApplication(pkg_name: str, path: str):
 
 
 
+def compileTemporaryClean(final_path: str):
+    shutil.rmtree(final_path)
+
 
 
 def finalCompiledInstall(pkg_name:str, src_path:str, pkg_type:str, pkg_ver:str): #function is needed because installCompiledApplication() will just check pkg_type, pkg_version, etc. Variable src_path is needed just to take variable name instead of "./Downloads/cache/"+pkg_name+"/"+pkg_name
@@ -109,6 +114,8 @@ def finalCompiledInstall(pkg_name:str, src_path:str, pkg_type:str, pkg_ver:str):
     with open(installation_path+"info.st",'w') as status_file_writer:
         status_file_writer.writelines(pkg_ver+'\n')
         print("info.st status file has been written into compiled package directory.\nInstallation has been completed succesfully")
+
+    compileTemporaryClean(src_path)
 
     
 
@@ -133,7 +140,7 @@ def checkPackageBuildType(pkg_name:str):
     tmp_path = "./downloads/tmp/"+pkg_name+"/"
     cfg_reader = open(tmp_path+"install_cfg.totmb","r").readlines()
     pkg_file = pkg_name+".tar.gz"
-    
+    cfg_reader[2] = cfg_reader[2].replace('\n', '')
     #pkg_type = cfg_reader[0].replace('\n', '')# now it's gonna travel in install_cfg.totmb
     if(cfg_reader[2] == "compile"):
         is_ext_ok = extractPackage(pkg_name, tmp_path, pkg_file)

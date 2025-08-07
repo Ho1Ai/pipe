@@ -12,7 +12,7 @@ class Check:
         #print(self.ex.get('exist'))
         if self.ex.get('exist'):
             info = requests.get('http://localhost:8000/api/package-info', params={'name': self.pkg_name}).json()
-            installation_list = open('./downloads/list_of_installations.totmb').readlines()
+            installation_list = open('./cache/loi.sst').readlines()
             index = 0
             installed = False
             for index in installation_list:
@@ -26,7 +26,7 @@ class Check:
             print("name:", info.get('name'), "\ncurrent version:", info.get('version'), "\npackage type (prebuilt/compile):", info.get('build_type'), "\ninstalled:", installed)
         else:
             print("\nObject with this name does not exist on server... \nLooking for it locally...")
-            installation_list = open('./downloads/list_of_installations.totmb').readlines() #yeah, DRY, don't ask me, why did I add this stuff again...
+            installation_list = open('./cache/loi.sst').readlines() #yeah, DRY, don't ask me, why did I add this stuff again...
             installed = False
             for index in installation_list:
                 index = index.replace('\n', '')
